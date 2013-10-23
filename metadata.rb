@@ -18,7 +18,7 @@ recipe "snapshot_timer::install_plugin", "Installs snapshot-timer collectd plugi
 attribute "snapshot_timer/lineage",
   :display_name => "snapshot_timer lineage",
   :description => "A RightScale block storage lineage name to time",
-  :required => "required",
+  :required => "optional",
   :default => "",
   :recipes => [
     "snapshot_timer::install_plugin"
