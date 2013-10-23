@@ -1,0 +1,11 @@
+{
+  "snapshot_timer": { 
+    "lineage": "ryan_oregon_db"
+  },
+  "rightscale": {
+    "collectd_packages_version": "latest"
+  },
+  "run_list": [
+    "recipe[snapshot_timer::install_plugin]"
+  ]
+}

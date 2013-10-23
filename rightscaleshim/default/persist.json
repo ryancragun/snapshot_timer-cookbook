@@ -1,0 +1,8 @@
+{
+  "tags": [
+    "server:uuid=UUID",
+    "server:private_ip_0=10.0.2.15",
+    "server:public_ip_0=33.33.33.10",
+    "rs_monitoring:state=active"
+  ]
+}
