@@ -58,6 +58,47 @@ end
 # Ensure we have all the needed params to run, show usage if we don't.
 usage unless lineage && hostname
 
+# Patch find_latest_ebs_backup to increase the timeout
+module RightScale
+  module Tools
+    module API
+      class Client10
+        def find_latest_ebs_backup(lineage, from_master = nil, timestamp = nil)
+          Timeout::timeout(120) do
+            seconds = 0
+            while true
+              begin
+                params = {:lineage => lineage}.merge @params
+                params[:from_master] = from_master if from_master
+                params[:timestamp] = timestamp if timestamp
+    @logger.info "Making a RightScale API call to find the latest ebs backup lineage = '#{lineage}', from_master = '#{from_master}', timestamp = '#{timestamp}'"
+                request_uri = @url + "/find_latest_ebs_backup.js" + "?" + requestify(params)
+                body = RestClient.get(request_uri)
+                json = body.nil? ? nil : JSON.load(body)
+                break json
+              rescue RestClient::Exception => e
+                if e.http_code == 422
+                  seconds += 10
+                  @logger.info "CAUGHT EXCEPTION in find_latest_ebs_backup. #{e}, retrying in #{seconds} seconds"
+                  sleep(seconds)
+                else
+                  raise e
+                end
+              rescue Exception => e
+                raise e
+              end
+            end
+          end
+        rescue Exception => e
+          display_exception(e, "find_latest_ebs_backup(#{lineage}, #{from_master}, #{timestamp})")
+          raise
+        end
+      end
+    end
+  end
+end
+
+# Main loop
 loop do
   api = RightScale::Tools::API.factory('1.0')
   api.logger.level = 2
