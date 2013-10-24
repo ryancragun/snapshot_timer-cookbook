@@ -16,5 +16,5 @@
 # limitations under the License.
 
 default[:snapshot_timer][:interval] = "1800"
-default[:snapshot_time][:lineage] = ""
-default[:snapshot_time][:enable_plugin] = false
+default[:snapshot_timer][:lineage] = ""
+default[:snapshot_timer][:enable_plugin] = "false"

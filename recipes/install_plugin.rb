@@ -18,7 +18,7 @@
 
 rightscale_marker
 
-if node[:snapshot_timer][:enable_plugin]
+if node[:snapshot_timer][:enable_plugin] = "true"
 
   rightscale_enable_collectd_plugin "exec"
   include_recipe "rightscale::default"
