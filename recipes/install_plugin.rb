@@ -49,18 +49,11 @@ cookbook_file(::File.join(node[:rightscale][:collectd_lib], "plugins", 'snapshot
   notifies :restart, resources(:service => "collectd")
 end
 
-ruby_block "add_collectd_gauges" do
-  block do
-    types_file = ::File.join(node[:rightscale][:collectd_share], 'types.db')
-    typesdb = IO.read(types_file)
-    unless typesdb.include?('gauge-age') && typesdb.include?('gauge-size')
-      typesdb += <<-EOS
-        ngauge-age          seconds:GAUGE:0:200000000
-        gauge-size          bytes:GAUGE:0:200000000
-      EOS
-      File.open(types_file, "w") { |f| f.write(typesdb) }
-    end
-  end
+file "/var/spool/cloud/user-data.rb" do
+  owner "root"
+  group "root"
+  mode "0664"
+  action :touch
 end
 
 log "   Installed collectd snapshot_timer plugin."

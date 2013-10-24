@@ -62,7 +62,7 @@ loop do
   api = RightScale::Tools::API.factory('1.0')
   api.logger.level = 2
   RestClient.log = nil
-  response_time = Benchmark.realtime { api.find_latest_ebs_backup(lineage)}
+  response_time = Benchmark.realtime { api.find_latest_ebs_backup(lineage)}.to_i
   print "PUTVAL #{hostname}/snapshot_timer-#{lineage}/gauge-age interval=#{interval} #{Time.now.to_i}:#{response_time}\n"
   STDOUT.flush
   sleep interval
