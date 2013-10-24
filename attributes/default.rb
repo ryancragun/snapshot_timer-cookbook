@@ -17,3 +17,4 @@
 
 default[:snapshot_timer][:interval] = "1800"
 default[:snapshot_time][:lineage] = ""
+default[:snapshot_time][:enable_plugin] = false

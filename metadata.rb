@@ -32,3 +32,12 @@ attribute "snapshot_timer/interval",
   :recipes => [
     "snapshot_timer::install_plugin"
   ]
+
+attribute "snapshot_timer/enable_plugin",
+  :display_name => "snapshot_timer enable_plugin",
+  :description => "Enables or disables the snapshot plugin",
+  :required => "optional",
+  :default => false,
+  :recipes => [
+    "snapshot_timer::install_plugin"
+  ]
